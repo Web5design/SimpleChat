@@ -77,22 +77,17 @@
 #pragma mark - FBLoginViewDelegate
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-    NSLog(@"loginViewShowingLoggedInUser");
     // Show the update button when the user is logged in
     [updateButton setHidden:NO];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-    NSLog(@"loginViewShowingLoggedOutUser");
     // Hide the update button when the user is logged out
     [updateButton setHidden:YES];
 }
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
                             user:(id<FBGraphUser>)user {
-    
-    NSLog(@"loginViewFetchedUserInfo");
-    NSLog(@"User name: %@. User id: %@.", user.name, user.id);
     
     // Save the users name so it can be sent with the messages to be shown in push notifications. 
     [[NSUserDefaults standardUserDefaults]setObject:user.name forKey:@"myName"];
@@ -293,6 +288,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"segueToChatView"]){
+        
+        // Here we set the friend of the chatViewController.
         
         ChatViewController *chat = [segue destinationViewController];
         

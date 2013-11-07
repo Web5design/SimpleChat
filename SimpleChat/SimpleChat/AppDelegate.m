@@ -63,8 +63,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSLog(@"application didFinishLaunchingWithOptions");
-    
     // Register push and what types of push.
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
@@ -75,18 +73,14 @@
     
     // Check to see if the user has an UID
     if (UID){
-        NSLog(@"Setup with UID");
         [Outbox setupWithPublic:PUBLIC_KEY andPrivate:PRIVATE_KEY andUID:UID];
     }else{
-        NSLog(@"Setup without UID");
         [Outbox setupWithPublic:PUBLIC_KEY andPrivate:PRIVATE_KEY];
     }
     
     //Load the Facebook login view
     [FBLoginView class];
-    
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
+        
     // Override point for customization after application launch.
     return YES;
 }

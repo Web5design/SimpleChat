@@ -215,9 +215,13 @@
         }
         
         CGRect keyboardEndFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-                
+        
         if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
             keyboardEndFrame.origin.y -= 20;    // If your not using iOS 7 status bar.
+        }
+        
+        if ([[UIApplication sharedApplication] statusBarFrame].size.height == 40) {
+            keyboardEndFrame.origin.y -= 20;   // If the in-call statusBar is present.
         }
         
         keyboardUpY = keyboardEndFrame.origin.y;
