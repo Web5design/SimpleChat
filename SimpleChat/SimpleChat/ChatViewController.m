@@ -116,10 +116,14 @@
     // Get your current ticket. The ticket is used on the server to know witch the latest message you got was.
     NSNumber *ticket = [[NSUserDefaults standardUserDefaults]objectForKey:@"ticket"];
     
-    if (ticket != NULL) {
-        // The messages will be recived just like they would normaly so they will end up in your onInput selector.
-        [Outbox putTo:PP_VALUE_PROTOCOL_PCC message:@{PP_KEY_ACTION:@"fetch", @"ticket":ticket}];
+    if (ticket == NULL) {
+        // If we don't have a ticket then we set it to 0.
+        ticket = [NSNumber numberWithInt:0];
     }
+    
+    // Fetch the mesages we've gotten since the last ticket. The messages will be recived just like they would normaly so they will end up in your onInput selector.
+    [Outbox putTo:PP_VALUE_PROTOCOL_PCC message:@{PP_KEY_ACTION:@"fetch", @"ticket":ticket}];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -227,6 +231,11 @@
         [newMessage setDate:[NSDate dateWithTimeIntervalSinceNow:0]];
         [newMessage setText:message];
         [newMessage setSenderUID:sender];
+        
+        //Save the new message
+        if (![context save:&error]) {
+            NSLog(@"Error! %@", error);
+        }
     }
 }
 
@@ -243,7 +252,7 @@
     NSString *myName = [[NSUserDefaults standardUserDefaults]objectForKey:@"myName"];
     NSString *pushText = [[NSString alloc]initWithFormat:@"%@: %@",myName,chatTextViewText];
     
-    NSDictionary *pushmeta = @{@"alert":pushText,@"sound":@"default",@"badge":@1};
+    NSDictionary *pushmeta = @{@"alert":pushText,@"sound":@"default",@"badge":@0};
     
     [Outbox putTo:currentFriend.uid message:@{@"message":chatTextViewText} andOptions:@{PP_KEY_PUSH:PP_VALUE_TRUE, PP_KEY_STORE:PP_VALUE_TRUE, PP_KEY_PUSH_META:pushmeta}];
     
