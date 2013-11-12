@@ -12,6 +12,10 @@ The last thing to do is to create an app on the developer dashboard. Name it wha
 And thats it. 
 
 
+If you want to add push notifications to the app you need to upload a push development certificate on you developer dashboard on http://pingpal.io/. 
+
+Here is a guide on how to create your certificate: http://pingpal.io/resources/documentation/ios-push-certificate-quick-guide/
+
 
 We use Axel Barinov's UIBubbleTableView in this project. https://github.com/AlexBarinov/UIBubbleTableView
 
